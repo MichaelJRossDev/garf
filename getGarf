@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+DATE=${1:-$(date +'%Y/%m/%d')}
+
+wget -q -O garf https://www.gocomics.com/garfield/$DATE
+
+LINE="$(grep -m 1 "assets.amuniversal.com" ./garf)"
+
+rm ./garf
+
+end=${LINE##*\"}
+
+LINE="${LINE:0:((${#LINE} - ${#end})-1)}"
+
+end=${LINE##*\"}
+
+LINE="${LINE:((${#LINE} - ${#end}))}"
+
+wget -q -O garf.jpeg $LINE
